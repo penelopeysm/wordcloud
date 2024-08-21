@@ -8,6 +8,7 @@
         {text: "placeholder", count: 1},
     ];
     let submission: string = "";
+    const maxTimer = 5;
 
     async function submitWord() {
         // Sanitise input
@@ -25,7 +26,7 @@
             body: JSON.stringify({text: submission}),
         });
         words = await response.json();
-        timer = 10;
+        timer = maxTimer;
         submission = "";
     }
 
@@ -34,7 +35,7 @@
         words = await response.json();
     }
 
-    let timer = 10;
+    let timer = maxTimer;
 
     onMount(async () => {
         await getWords();
@@ -43,7 +44,7 @@
             timer -= 1;
             if (timer === 0) {
                 await getWords();
-                timer = 10;
+                timer = maxTimer;
             }
         }, 1000);
     });
@@ -72,7 +73,7 @@
                 <button id="submit">Submit</button>
             </form>
 
-            <p>The word cloud on the right automatically updates whenever you submit a word, or 10 seconds after the last update, whichever comes first. <span class="smaller">(Next refresh in: {timer} seconds)</span></p>
+            <p>The word cloud on the right automatically updates whenever you submit a word, or {maxTimer} seconds after the last update, whichever comes first. <span class="smaller">(Next refresh in: {timer} seconds)</span></p>
 
             <p>So far, this word cloud has received {totalWords} submissions.</p>
 
