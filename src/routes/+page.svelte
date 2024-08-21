@@ -42,7 +42,7 @@
 
         const interval = setInterval(async () => {
             timer -= 1;
-            if (timer === 0) {
+            if (timer <= 0) {
                 await getWords();
                 timer = maxTimer;
             }
