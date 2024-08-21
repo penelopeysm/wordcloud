@@ -29,11 +29,11 @@
   export let height;
   export let font = "Fira Sans";
   // Fudge factor to make it more likely for all words to fit
-  export let maxFontSize = Math.floor(height / words.length);
+  export let maxFontSize = Math.max(20, Math.floor(height / words.length));
   export let minRotate = 0;
   export let maxRotate = 0;
   export let scheme = "schemePaired";
-  export let padding = 5;
+  export let padding = 2;
   export let backgroundColor = "#fff"
 
   // count max word occurence
