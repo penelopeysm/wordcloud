@@ -2,8 +2,6 @@
     import { onMount } from "svelte";
     import WordCloud from "./WordCloud.svelte";
 
-    // import WordCloud from "wordcloud";
-
     let words = [
         {text: "placeholder", count: 1},
     ];
@@ -11,8 +9,8 @@
     let submissionInput: HTMLInputElement;
     const maxTimer = 5;
 
-    function invalidate() {
-        submissionInput.placeholder = "already submitted";
+    function invalidate(placeholder: string) {
+        submissionInput.placeholder = placeholder;
         submissionInput.style.transition = "";
         submissionInput.value = "";
         submissionInput.style.backgroundColor = "#ffccdb";
@@ -26,15 +24,29 @@
     }
 
     async function submitWord() {
-        // Sanitise input
-        submission = submission.toLowerCase().trim().split(/\s+/).join("-");
+        const rgx = /drop\s+table/i;
+        if (rgx.test(submission)) {
+            alert("Nice try, but my SQL inputs are thoroughly sanitised.");
+        }
 
         if (submission === "") {
             return;
         }
 
+        // Sanitise input
+        submission = submission
+            .toLowerCase()
+            .trim()
+            .split(/\s+/).join("-")
+            .replace(/[^a-z0-9-_.]/g, "");
+
+        if (submission === "") {
+            invalidate("invalid character in input");
+            return;
+        }
+
         if (localStorage.getItem(`wordcloud___${submission}`) === "true") {
-            invalidate();
+            invalidate("already submitted");
             return;
         } else {
             localStorage.setItem(`wordcloud___${submission}`, "true");
