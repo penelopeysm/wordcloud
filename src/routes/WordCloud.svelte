@@ -28,7 +28,8 @@
   export let width;
   export let height;
   export let font = "Fira Sans";
-  export let maxFontSize = 40;
+  // Fudge factor to make it more likely for all words to fit
+  export let maxFontSize = Math.floor(0.7 * height / words.length);
   export let minRotate = 0;
   export let maxRotate = 0;
   export let scheme = "schemePaired";
