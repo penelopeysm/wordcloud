@@ -5,7 +5,7 @@ import type { RequestHandler } from './$types';
 export const POST: RequestHandler = async ({ request }) => {
 	const { text } = await request.json();
     
+    console.log("adding new word: ", text);
     const newWords = await addData("programming", text);
-    console.log(newWords);
     return json(newWords);
 };

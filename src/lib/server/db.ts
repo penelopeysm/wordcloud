@@ -4,10 +4,6 @@ import { env } from "$env/dynamic/private";
 
 const dbUrl = env.FLY_APP_NAME === undefined ? env.FLY_PG_PROXY_CONN_STRING : env.DATABASE_URL;
 
-console.log("FLY_APP_NAME", env.FLY_APP_NAME);
-console.log("FLY_PG_PROXY_CONN_STRING", env.FLY_PG_PROXY_CONN_STRING);
-console.log("DATABASE_URL", env.DATABASE_URL);
-
 async function withClient<T>(async_callback: (client: pg.Client) => Promise<T>): Promise<T> {
     if (dbUrl === undefined) {
         throw new Error("Database URL is undefined. You need to set the appropriate environment variables.");

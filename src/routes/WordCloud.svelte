@@ -45,8 +45,6 @@
 
   function redraw() {
       select("#wordcloud").selectAll("*").remove();
-
-      console.log(words.length);
       const layout = cloud()
         .size([width, height])
         .words(words)

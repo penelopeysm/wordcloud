@@ -8,7 +8,22 @@
         {text: "placeholder", count: 1},
     ];
     let submission: string = "";
+    let submissionInput: HTMLInputElement;
     const maxTimer = 5;
+
+    function invalidate() {
+        submissionInput.placeholder = "already submitted";
+        submissionInput.style.transition = "";
+        submissionInput.value = "";
+        submissionInput.style.backgroundColor = "#ffccdb";
+        setTimeout(() => {
+            submissionInput.style.transition = "background-color 0.5s";
+            submissionInput.style.backgroundColor = "white";
+        }, 100);
+        setTimeout(() => {
+            submissionInput.placeholder = "Enter a word...";
+        }, 600);
+    }
 
     async function submitWord() {
         // Sanitise input
@@ -16,6 +31,13 @@
 
         if (submission === "") {
             return;
+        }
+
+        if (localStorage.getItem(`wordcloud___${submission}`) === "true") {
+            invalidate();
+            return;
+        } else {
+            localStorage.setItem(`wordcloud___${submission}`, "true");
         }
 
         const response = await fetch("/answer", {
@@ -39,8 +61,7 @@
 
     onMount(async () => {
         await getWords();
-
-        const interval = setInterval(async () => {
+        setInterval(async () => {
             timer -= 1;
             if (timer <= 0) {
                 await getWords();
@@ -49,7 +70,7 @@
         }, 1000);
     });
 
-    let totalWords;
+    let totalWords: number;
     $: {
         totalWords = words.map((word) => word.count).reduce((a, b) => a + b, 0);
     }
@@ -69,6 +90,7 @@
 
             <form on:submit|preventDefault={async () => submitWord()}>
                 <input id="submission" type="text" placeholder="Enter a word..."
+                    bind:this={submissionInput}
                     bind:value={submission} />
                 <button id="submit">Submit</button>
             </form>
