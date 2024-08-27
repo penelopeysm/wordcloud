@@ -109,7 +109,7 @@
 
             <p>The word cloud on the right automatically updates whenever you submit a word, or {maxTimer} seconds after the last update, whichever comes first. <span class="smaller">(Next refresh in: {timer} seconds)</span></p>
 
-            <p>So far, this word cloud has received {totalWords} submissions.</p>
+            <p>So far, this word cloud has received {totalWords} submissions. Apologies if it doesn't look right; the word cloud generation library I'm using isn't very good.</p>
 
             <p>Thank you, <br />- Penny &lt;3</p>
         </div>
